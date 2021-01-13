@@ -1,0 +1,25 @@
+Notes:
+
+Get started with Configuration Manager cmdlets
+https://docs.microsoft.com/en-us/powershell/sccm/overview?view=sccm-ps
+
+1. Start Windows PowerShell with the "Run as administrator" option.
+set-executionpolicy unrestricted
+
+Process:
+
+1. Start Windows PowerShell.
+
+2. In put the following lines:
+
+Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
+
+Import-Module .\ConfigurationManager.psd1
+
+Set-Location ABC:
+
+3. Where ABC equals the site name that you are connecting to.
+
+4. To pull information about each collection - In put the following lines:
+
+Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-list
