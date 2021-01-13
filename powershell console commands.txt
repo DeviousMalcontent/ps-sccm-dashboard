@@ -1,0 +1,14 @@
+Notes:
+
+Get started with Configuration Manager cmdlets
+https://docs.microsoft.com/en-us/powershell/sccm/overview?view=sccm-ps
+
+1. Start Windows PowerShell with the "Run as administrator" option.
+set-executionpolicy unrestricted
+
+
+Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
+
+Import-Module .\ConfigurationManager.psd1
+
+Set-Location ABC:
