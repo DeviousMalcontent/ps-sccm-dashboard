@@ -8,6 +8,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <style>
+  body {
+  overflow-y: scroll; /* Show vertical scrollbar */
+  overflow-x: scroll; /* Show horizontal scrollbar */
+}
 	table {
 	  margin 10px;
 	  font-family: arial, sans-serif;
@@ -46,401 +50,62 @@
 	ol.carousel-indicators li.active {
 	  background: yellow;
 	}
-	#Progress {
-	  width: 100%;
-	  background-color: #FFFFFF;
-	}
-
-	#Bar {
-	  width: 1%;
-	  height: 10px;
-	  background-color: #C40000;
-	}
+	
+	.transition-timer-carousel-progress-bar {
+    height: 5px;
+    background-color: #C40000;
+    width: 0%;
+    margin: 0px 0px 0px 0px;
+    border: none;
+    z-index: 11;
+    position: relative;
+}
 	</style>
 </head>
 <body>
-<div id='seconds-counter'> </div>
+
 
 <script>
 // Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest
-
-
-
-var seconds = 0;
-var el = document.getElementById('seconds-counter');
-var elem = document.getElementById("Bar");
-
-function incrementSeconds() {
-    seconds += 1;
-    el.innerText = "You have been here for " + seconds + " seconds.";
-	elem.style.width = seconds + "%";
-}
-
-var cancel = setInterval(incrementSeconds, 1000);
-
-/*
-var counter=0;
-function ProgressBar(counter)
-{
-
-
-  if(counter<20)
-  {
-      counter++;
-	  var elem = document.getElementById("Bar");
-	  var width = 1;
-      width++;
-      elem.style.width = width + "%";
-      setTimeout(function(){ProgressBar(counter)},1000);
-	  console.log(counter);
-  }
-}
-
-ProgressBar(counter); */
-
-/*
-var k = 0;
-function move() {
-  if (k == 0) {
-    k = 1;
-    var elem = document.getElementById("Bar");
-    var width = 1;
-    var id = setInterval(frame, 1000);
-    function frame() {
-      if (width >= 100) {
-        clearInterval(id);
-        k = 0;
-		move()
-      } else {
-        width++;
-        elem.style.width = width + "%";
-      }
-    }
-  }
-} */
-
-var LIB =  `Name               : Library-PC19
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 4:07:07 AM
-
-Name               : Library-PC20
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 9/08/2019 12:02:02 AM
-
-Name               : Library-PC27
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 1:43:10 AM
-
-Name               : Library-PC22
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 3:53:09 AM
-
-Name               : Library-PC17
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 2:12:29 AM
-
-Name               : Library-PC23
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 3:57:36 AM
-
-Name               : Library-PC30
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 8/08/2019 8:47:51 PM
-
-Name               : Library-PC15
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 3:26:02 AM
-
-Name               : Library-PC24
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 3:54:38 AM
-
-Name               : Library-PC21
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 3:56:49 AM
-
-Name               : Library-PC16
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 4:10:12 AM
-
-Name               : Library-PC04
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 3:55:07 AM
-
-Name               : Library-PC26
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 9/08/2019 2:18:44 AM
-
-Name               : Library-PC38
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 6/08/2019 8:45:25 PM
-
-Name               : Library-PC39
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 8/08/2019 4:32:12 AM
-
-Name               : Library-PC40
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 6/08/2019 8:56:07 PM
-
-Name               : Library-PC41
-ClientActiveStatus : 0
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17134.829
-LastPolicyRequest  : 27/06/2019 8:47:37 PM
-
-Name               : Library-PC29
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 3:50:58 AM
-
-Name               : Library-PC18
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 3:44:49 AM
-
-Name               : Library-PC25
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 3:50:53 AM
-
-Name               : Library-PC06
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 12/08/2019 12:51:06 AM
-
-Name               : Library-PC05
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 3:49:15 AM
-
-Name               : Library-PC13
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 3:55:30 AM
-
-Name               : Library-PC14
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 12/08/2019 1:03:21 AM
-
-Name               : Library-PC01
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 6/08/2019 8:59:30 PM
-
-Name               : Library-PC07
-ClientActiveStatus : 0
-ClientVersion      : 5.00.8577.1108
-DeviceOSBuild      : 10.0.16299
-LastPolicyRequest  : 18/04/2018 12:30:18 AM
-
-Name               : Library-PC08
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17134.885
-LastPolicyRequest  : 12/08/2019 3:30:33 AM
-
-Name               : Library-PC09
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17134.885
-LastPolicyRequest  : 9/08/2019 2:56:17 AM
-
-Name               : Library-PC10
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17134.885
-LastPolicyRequest  : 12/08/2019 4:09:07 AM
-
-Name               : Library-PC11
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17134.885
-LastPolicyRequest  : 8/08/2019 6:46:51 AM
-
-Name               : Library-PC12
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17134.885
-LastPolicyRequest  : 12/08/2019 3:57:33 AM
-
-Name               : Library-PC02
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.379
-LastPolicyRequest  : 6/08/2019 8:50:47 PM
-
-Name               : Library-PC37
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 7/08/2019 5:01:22 AM`;
-LIBarray = LIB.replace(/Name               : /gi, "");
-LIBarray = LIBarray.replace(/ClientActiveStatus : /gi, "");
-LIBarray = LIBarray.replace(/ClientVersion      : /gi, "");
-LIBarray = LIBarray.replace(/DeviceOSBuild      : /gi, "");
-LIBarray = LIBarray.replace(/LastPolicyRequest  : /gi, "");
-LIBarray = LIBarray.replace(/\n\n/gi, '^');
-LIBarray = LIBarray.replace(/\n/g, '^ ' ).split('^');
-
-var LABA =  `Name               : Lab-A-PC01
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:38:46 PM
-
-Name               : Lab-A-PC02
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:56:45 PM
-
-Name               : Lab-A-PC03
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 7/08/2019 8:59:41 PM
-
-Name               : Lab-A-PC04
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 7/08/2019 8:48:51 PM
-
-Name               : Lab-A-PC05
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:54:53 PM
-
-Name               : Lab-A-PC06
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 7/08/2019 8:56:51 PM
-
-Name               : Lab-A-PC07
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:39:48 PM
-
-Name               : Lab-A-PC08
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 7/08/2019 8:58:47 PM
-
-Name               : Lab-A-PC09
-ClientActiveStatus : 0
-ClientVersion      : 5.00.8692.1008
-DeviceOSBuild      : 10.0.17134.112
-LastPolicyRequest  : 1/02/2019 5:34:30 AM
-
-Name               : Lab-A-PC10
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:41:46 PM
-
-Name               : Lab-A-PC11
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 7/08/2019 8:37:51 PM
-
-Name               : Lab-A-PC12
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:48:46 PM
-
-Name               : Lab-A-PC13
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:44:42 PM
-
-Name               : Lab-A-PC14
-ClientActiveStatus : 0
-ClientVersion      : 5.00.8692.1008
-DeviceOSBuild      : 10.0.17134.472
-LastPolicyRequest  : 29/05/2019 1:41:39 AM
-
-Name               : Lab-A-PC15
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.652
-LastPolicyRequest  : 7/08/2019 8:48:49 PM
-
-Name               : Lab-A-PC16
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 9/08/2019 4:55:11 AM
-
-Name               : Lab-A-PC17
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.379
-LastPolicyRequest  : 7/08/2019 8:50:10 PM
-
-Name               : Lab-A-PC18
-ClientActiveStatus : 1
-ClientVersion      : 5.00.8790.1007
-DeviceOSBuild      : 10.0.17763.615
-LastPolicyRequest  : 7/08/2019 8:42:47 PM`;
-LABAarray = LABA.replace(/Name               : /gi, "");
-LABAarray = LABAarray.replace(/ClientActiveStatus : /gi, "");
-LABAarray = LABAarray.replace(/ClientVersion      : /gi, "");
-LABAarray = LABAarray.replace(/DeviceOSBuild      : /gi, "");
-LABAarray = LABAarray.replace(/LastPolicyRequest  : /gi, "");
-LABAarray = LABAarray.replace(/\n\n/gi, '^');
-LABAarray = LABAarray.replace(/\n/g, '^ ' ).split('^');
-
-
-
+$(document).ready(function(){
+      var percent = 0, bar = $('.transition-timer-carousel-progress-bar'), crsl = $('#Carousel');
+			function progressBarCarousel() {
+			  bar.css({width:percent+'%'});
+			 percent = percent +0.5;
+			  if (percent>100) {
+			      percent=0;
+			      //crsl.carousel('next');
+			  }      
+			}
+			crsl.carousel({
+			    interval: false,
+			    pause: true
+			}).on('slid.bs.carousel', function () {});var barInterval = setInterval(progressBarCarousel, 100);
+			crsl.hover(
+			    function(){
+			        clearInterval(barInterval);
+			    },
+			    function(){
+			        barInterval = setInterval(progressBarCarousel, 100);
+          })
+    });
+</script>
+
+<hr class="transition-timer-carousel-progress-bar" />
+  <div id="Carousel" class="carousel slide" data-ride="carousel" data-interval="20000" style="margin 10px;">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+      <li data-target="#Carousel" data-slide-to="1"></li>
+      <li data-target="#Carousel" data-slide-to="2"></li>
+	  <li data-target="#Carousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" style="width:100%; height: 100%px;">
+      <div class="item active">
+	  <h2>Student Workstations: LAB B</h2>
+<script>
 var LABB =  `Name               : Lab-B-PC13
 ClientActiveStatus : 1
 ClientVersion      : 5.00.8790.1007
@@ -537,7 +202,29 @@ LABBarray = LABBarray.replace(/DeviceOSBuild      : /gi, "");
 LABBarray = LABBarray.replace(/LastPolicyRequest  : /gi, "");
 LABBarray = LABBarray.replace(/\n\n/gi, '^');
 LABBarray = LABBarray.replace(/\n/g, '^ ' ).split('^');
+ </script>	  
+	  <script>
+	  document.write("<table>");
+		var j=0
+		for(var i=0; i<LABBarray.length; i++) {
+			
+				if (j == 0) {
+				 document.write("<tr>");
+				}
+				document.write("<td>"+LABBarray[i] + "</td>");
+				j++;
+				if (j == 5) {
+				 document.write("</tr>");
+				 j=0;
+				}
+		} 
+		document.write("</table>");
+	  </script>
+      </div>
 
+	  <div class="item">
+	  <h2>Student Workstations: LAB C</h2>
+<script>
 var LABC =  `Name               : Lab-C-PC11
 ClientActiveStatus : 1
 ClientVersion      : 5.00.8790.1007
@@ -748,47 +435,7 @@ LABCarray = LABCarray.replace(/DeviceOSBuild      : /gi, "");
 LABCarray = LABCarray.replace(/LastPolicyRequest  : /gi, "");
 LABCarray = LABCarray.replace(/\n\n/gi, '^');
 LABCarray = LABCarray.replace(/\n/g, '^ ' ).split('^');
-</script>
-
-
- <div id="Progress">
-  <div id="Bar"></div>
-  </div>
-
-  <div id="Carousel" class="carousel slide" data-ride="carousel" data-interval="20000" style="margin 10px;">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#Carousel" data-slide-to="0" class="active"></li>
-      <li data-target="#Carousel" data-slide-to="1"></li>
-      <li data-target="#Carousel" data-slide-to="2"></li>
-	  <li data-target="#Carousel" data-slide-to="3"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" style="width:100%; height: 100%px;">
-      <div class="item active">
-	  <h2>Student Workstations: LAB B</h2>
-	  <script>
-	  document.write("<table>");
-		var j=0
-		for(var i=0; i<LABBarray.length; i++) {
-			
-				if (j == 0) {
-				 document.write("<tr>");
-				}
-				document.write("<td>"+LABBarray[i] + "</td>");
-				j++;
-				if (j == 5) {
-				 document.write("</tr>");
-				 j=0;
-				}
-		} 
-		document.write("</table>");
-	  </script>
-      </div>
-
-	  <div class="item">
-	  <h2>Student Workstations: LAB C</h2>
+</script>	  
 	  <script>
 	  document.write("<table>");
 		var j=0
@@ -810,6 +457,122 @@ LABCarray = LABCarray.replace(/\n/g, '^ ' ).split('^');
 	  
       <div class="item">
 	  <h2>Student Workstations: LAB A</h2>
+<script>
+var LABA =  `Name               : Lab-A-PC01
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:38:46 PM
+
+Name               : Lab-A-PC02
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:56:45 PM
+
+Name               : Lab-A-PC03
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 7/08/2019 8:59:41 PM
+
+Name               : Lab-A-PC04
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 7/08/2019 8:48:51 PM
+
+Name               : Lab-A-PC05
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:54:53 PM
+
+Name               : Lab-A-PC06
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 7/08/2019 8:56:51 PM
+
+Name               : Lab-A-PC07
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:39:48 PM
+
+Name               : Lab-A-PC08
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 7/08/2019 8:58:47 PM
+
+Name               : Lab-A-PC09
+ClientActiveStatus : 0
+ClientVersion      : 5.00.8692.1008
+DeviceOSBuild      : 10.0.17134.112
+LastPolicyRequest  : 1/02/2019 5:34:30 AM
+
+Name               : Lab-A-PC10
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:41:46 PM
+
+Name               : Lab-A-PC11
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 7/08/2019 8:37:51 PM
+
+Name               : Lab-A-PC12
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:48:46 PM
+
+Name               : Lab-A-PC13
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:44:42 PM
+
+Name               : Lab-A-PC14
+ClientActiveStatus : 0
+ClientVersion      : 5.00.8692.1008
+DeviceOSBuild      : 10.0.17134.472
+LastPolicyRequest  : 29/05/2019 1:41:39 AM
+
+Name               : Lab-A-PC15
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 7/08/2019 8:48:49 PM
+
+Name               : Lab-A-PC16
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 9/08/2019 4:55:11 AM
+
+Name               : Lab-A-PC17
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.379
+LastPolicyRequest  : 7/08/2019 8:50:10 PM
+
+Name               : Lab-A-PC18
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 7/08/2019 8:42:47 PM`;
+LABAarray = LABA.replace(/Name               : /gi, "");
+LABAarray = LABAarray.replace(/ClientActiveStatus : /gi, "");
+LABAarray = LABAarray.replace(/ClientVersion      : /gi, "");
+LABAarray = LABAarray.replace(/DeviceOSBuild      : /gi, "");
+LABAarray = LABAarray.replace(/LastPolicyRequest  : /gi, "");
+LABAarray = LABAarray.replace(/\n\n/gi, '^');
+LABAarray = LABAarray.replace(/\n/g, '^ ' ).split('^');
+</script>
 	  <script>
 	  document.write("<table>");
 		var j=0
@@ -831,6 +594,212 @@ LABCarray = LABCarray.replace(/\n/g, '^ ' ).split('^');
     
       <div class="item">
       <h2>Workstations: Library Open Areas</h2>
+<script>
+var LIB =  `Name               : Library-PC19
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 4:07:07 AM
+
+Name               : Library-PC20
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 9/08/2019 12:02:02 AM
+
+Name               : Library-PC27
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 1:43:10 AM
+
+Name               : Library-PC22
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 3:53:09 AM
+
+Name               : Library-PC17
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 2:12:29 AM
+
+Name               : Library-PC23
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 3:57:36 AM
+
+Name               : Library-PC30
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 8/08/2019 8:47:51 PM
+
+Name               : Library-PC15
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 3:26:02 AM
+
+Name               : Library-PC24
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 3:54:38 AM
+
+Name               : Library-PC21
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 3:56:49 AM
+
+Name               : Library-PC16
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 4:10:12 AM
+
+Name               : Library-PC04
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 3:55:07 AM
+
+Name               : Library-PC26
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 9/08/2019 2:18:44 AM
+
+Name               : Library-PC38
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 6/08/2019 8:45:25 PM
+
+Name               : Library-PC39
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 8/08/2019 4:32:12 AM
+
+Name               : Library-PC40
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 6/08/2019 8:56:07 PM
+
+Name               : Library-PC41
+ClientActiveStatus : 0
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17134.829
+LastPolicyRequest  : 27/06/2019 8:47:37 PM
+
+Name               : Library-PC29
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 3:50:58 AM
+
+Name               : Library-PC18
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 3:44:49 AM
+
+Name               : Library-PC25
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 3:50:53 AM
+
+Name               : Library-PC06
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 12/08/2019 12:51:06 AM
+
+Name               : Library-PC05
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 3:49:15 AM
+
+Name               : Library-PC13
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 3:55:30 AM
+
+Name               : Library-PC14
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.615
+LastPolicyRequest  : 12/08/2019 1:03:21 AM
+
+Name               : Library-PC01
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 6/08/2019 8:59:30 PM
+
+Name               : Library-PC07
+ClientActiveStatus : 0
+ClientVersion      : 5.00.8577.1108
+DeviceOSBuild      : 10.0.16299
+LastPolicyRequest  : 18/04/2018 12:30:18 AM
+
+Name               : Library-PC08
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17134.885
+LastPolicyRequest  : 12/08/2019 3:30:33 AM
+
+Name               : Library-PC09
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17134.885
+LastPolicyRequest  : 9/08/2019 2:56:17 AM
+
+Name               : Library-PC10
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17134.885
+LastPolicyRequest  : 12/08/2019 4:09:07 AM
+
+Name               : Library-PC11
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17134.885
+LastPolicyRequest  : 8/08/2019 6:46:51 AM
+
+Name               : Library-PC12
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17134.885
+LastPolicyRequest  : 12/08/2019 3:57:33 AM
+
+Name               : Library-PC02
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.379
+LastPolicyRequest  : 6/08/2019 8:50:47 PM
+
+Name               : Library-PC37
+ClientActiveStatus : 1
+ClientVersion      : 5.00.8790.1007
+DeviceOSBuild      : 10.0.17763.652
+LastPolicyRequest  : 7/08/2019 5:01:22 AM`;
+LIBarray = LIB.replace(/Name               : /gi, "");
+LIBarray = LIBarray.replace(/ClientActiveStatus : /gi, "");
+LIBarray = LIBarray.replace(/ClientVersion      : /gi, "");
+LIBarray = LIBarray.replace(/DeviceOSBuild      : /gi, "");
+LIBarray = LIBarray.replace(/LastPolicyRequest  : /gi, "");
+LIBarray = LIBarray.replace(/\n\n/gi, '^');
+LIBarray = LIBarray.replace(/\n/g, '^ ' ).split('^');
+</script>
 	  <script>
 	  document.write("<table>");
 		var j=0
