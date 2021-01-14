@@ -23,3 +23,9 @@ Set-Location ABC:
 4. To pull information about each collection - In put the following lines:
 
 Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-list
+
+
+Settings: 
+SCCM Site (e.g. ABC) – assigned site code
+Collections array, [Collection Name]
+Carousel Interval

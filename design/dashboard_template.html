@@ -46,10 +46,79 @@
 	ol.carousel-indicators li.active {
 	  background: yellow;
 	}
+	#Progress {
+	  width: 100%;
+	  background-color: #FFFFFF;
+	}
+
+	#Bar {
+	  width: 1%;
+	  height: 10px;
+	  background-color: #C40000;
+	}
 	</style>
 </head>
 <body>
+<div id='seconds-counter'> </div>
+
 <script>
+// Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest
+
+
+
+var seconds = 0;
+var el = document.getElementById('seconds-counter');
+var elem = document.getElementById("Bar");
+
+function incrementSeconds() {
+    seconds += 1;
+    el.innerText = "You have been here for " + seconds + " seconds.";
+	elem.style.width = seconds + "%";
+}
+
+var cancel = setInterval(incrementSeconds, 1000);
+
+/*
+var counter=0;
+function ProgressBar(counter)
+{
+
+
+  if(counter<20)
+  {
+      counter++;
+	  var elem = document.getElementById("Bar");
+	  var width = 1;
+      width++;
+      elem.style.width = width + "%";
+      setTimeout(function(){ProgressBar(counter)},1000);
+	  console.log(counter);
+  }
+}
+
+ProgressBar(counter); */
+
+/*
+var k = 0;
+function move() {
+  if (k == 0) {
+    k = 1;
+    var elem = document.getElementById("Bar");
+    var width = 1;
+    var id = setInterval(frame, 1000);
+    function frame() {
+      if (width >= 100) {
+        clearInterval(id);
+        k = 0;
+		move()
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+} */
+
 var LIB =  `Name               : Library-PC19
 ClientActiveStatus : 1
 ClientVersion      : 5.00.8790.1007
@@ -681,14 +750,18 @@ LABCarray = LABCarray.replace(/\n\n/gi, '^');
 LABCarray = LABCarray.replace(/\n/g, '^ ' ).split('^');
 </script>
 
- 
-  <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="20000" style="margin 10px;">
+
+ <div id="Progress">
+  <div id="Bar"></div>
+  </div>
+
+  <div id="Carousel" class="carousel slide" data-ride="carousel" data-interval="20000" style="margin 10px;">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-	  <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+      <li data-target="#Carousel" data-slide-to="1"></li>
+      <li data-target="#Carousel" data-slide-to="2"></li>
+	  <li data-target="#Carousel" data-slide-to="3"></li>
     </ol>
 
     <!-- Wrapper for slides -->

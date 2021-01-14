@@ -4,7 +4,9 @@ Dashboard written in PowerShell that provides up-to-date information taken from 
 ## Directory structure
 
 **/ps/** - PowerShell version
-**/exe/** - Standalone, self-hosted executable written on Masm32
+
+**/exe/** - Standalone, self-hosted executable written in Masm32
+
 **/php/** - PHP version
 
 ### PowerShell version
