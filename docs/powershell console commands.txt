@@ -28,4 +28,8 @@ Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientA
 Settings: 
 SCCM Site (e.g. ABC) – assigned site code
 Collections array, [Collection Name]
-Carousel Interval
+Carousel Interval (Seconds)
+What attributes the user wants to show i.e.: Name, ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest
+Compare against master (highlights devices that are not up-to-date)
+
+ToDo: figure out how to get the most up-to-date windows build. 
