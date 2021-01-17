@@ -24,6 +24,11 @@ Set-Location ABC:
 
 Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-list
 
+* Better formatted commands:  
+
+Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-table
+
+Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | ft | out-string
 
 Settings: 
 SCCM Site (e.g. ABC) – assigned site code
