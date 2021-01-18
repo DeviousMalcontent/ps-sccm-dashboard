@@ -1,6 +1,8 @@
 # Get the start-up directory of the PowerShell script so that we can load the settings file. 
+Write-Host "Script start-up path: "
 $PSScriptRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 Write-Host $PSScriptRoot
+Write-Host ""
 
 # Script needs to be run as Administrator, 
 if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))  
@@ -10,7 +12,7 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
   Break
 }
 
-# Load settings file
+# Load the settings file
 # Get-Content $PSScriptRoot\Settings.ini | Foreach-Object{ # - prod
 Get-Content $PSScriptRoot\mySettings.ini | Foreach-Object{
    $var = $_.Split('=')
@@ -18,8 +20,14 @@ Get-Content $PSScriptRoot\mySettings.ini | Foreach-Object{
 }
 
 # Debug
-Write-Host "Load settings test data: "
-Write-Host $testVar
+Write-Host "Loaded variables from settings file: "
+Write-Host $siteCode
+Write-Host $deviceCollectionsName
+#Write-Host $deviceCollectionsAttributes
+Write-Host $deviceCollectionsCompareAgainstReferenceSystem
+#Write-Host $deviceCollectionsReferenceSystemHost
+#Write-Host $carouselInterval
+#Write-Host $dashboardRefreshRate
 
 
 # Get the IP address of our host computer so that it can be added to the httplistener
@@ -78,6 +86,7 @@ Set-Location $env:SMS_ADMIN_UI_PATH\..\
 #Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
 #Set-Location 'C:\Program Files (x86)\Microsoft Endpoint Manager\AdminConsole\bin'
 Import-Module .\ConfigurationManager.psd1
+#Set-Location $siteCode: + ":"
 Set-Location ABC:
 #$Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-table | out-string
 $Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | ConvertTo-Html -Property Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | out-string
@@ -91,13 +100,13 @@ $Collection1 = $Collection1 -replace '</head><body>\r\n'
 $Collection1 = $Collection1 -replace '<colgroup><col/><col/><col/><col/><col/></colgroup>\r\n'
 $Collection1 = $Collection1 -replace '</body></html>\r\n'
 
-
-Write-Host "test data: "
+# Debug
+Write-Host "Collection entries: "
 Write-Host $Collection1
 
 $output = ' ' +  $Collection1 + ' '
 
-# request actions.
+# HTTP routing for requests.
 $routes = @{
     '/index'  = { 
       $page = render $output
@@ -111,9 +120,9 @@ $routes = @{
   }
 }
 
-# embed content into the default template.
+# Embed the collection entries into the HTML template.
 function render($template, $content) {
-  # shorthand for rendering the template.
+  # Define the shorthand used for rendering the template.
   if ($content -is [string]) { $content = @{page = $content} }
 
   foreach ($key in $content.keys) {
@@ -123,22 +132,26 @@ function render($template, $content) {
   return $template
 }
 
+# Not needed.
+
 # get post data from the input stream.
-function extract($request) {
-  $length = $request.contentlength64
-  $buffer = new-object "byte[]" $length
+#function extract($request) {
+#  $length = $request.contentlength64
+#  $buffer = new-object "byte[]" $length
+#
+#  [void]$request.inputstream.read($buffer, 0, $length)
+#  $body = [system.text.encoding]::ascii.getstring($buffer)
+#
+#  $data = @{}
+#  $body.split('&') | %{
+#    $part = $_.split('=')
+#    $data.add($part[0], $part[1])
+#  }
+#
+#  return $data
+#}
 
-  [void]$request.inputstream.read($buffer, 0, $length)
-  $body = [system.text.encoding]::ascii.getstring($buffer)
-
-  $data = @{}
-  $body.split('&') | %{
-    $part = $_.split('=')
-    $data.add($part[0], $part[1])
-  }
-
-  return $data
-}
+# Not needed.
 
 # Start httplistener
 $listener = new-object system.net.httplistener
@@ -153,6 +166,7 @@ Write-Host $url1
 Write-Host $url2
 Write-Host $url3
 
+#Httplistener loop 
 while ($listener.islistening) {
   $context = $listener.getcontext()
   $request = $context.request
