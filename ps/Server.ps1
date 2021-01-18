@@ -11,7 +11,8 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 
 # Load settings file
-Get-Content $PSScriptRoot\Settings.ini | Foreach-Object{
+# Get-Content $PSScriptRoot\Settings.ini | Foreach-Object{ # - prod
+Get-Content $PSScriptRoot\mySettings.ini | Foreach-Object{
    $var = $_.Split('=')
    New-Variable -Name $var[0] -Value $var[1]
 }
