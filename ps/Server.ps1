@@ -1,3 +1,7 @@
+# Get the start-up directory of the PowerShell script so that we can load the settings file. 
+$PSScriptRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
+Write-Host $PSScriptRoot
+
 # Script needs to be run as Administrator, 
 if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))  
 {  
@@ -6,14 +10,26 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
   Break
 }
 
+# Load settings file
+Get-Content $PSScriptRoot\Settings.ini | Foreach-Object{
+   $var = $_.Split('=')
+   New-Variable -Name $var[0] -Value $var[1]
+}
+
+# Debug
+Write-Host "Load settings test data: "
+Write-Host $testVar
+
+
 # Get the IP address of our host computer so that it can be added to the httplistener
 $ipV4 = Test-Connection -ComputerName (hostname) -Count 1  | Select -ExpandProperty IPV4Address
 
-# listening url.
+# Listening url.
 $url1 = 'http://' + $ipV4.IPAddressToString + ':80/'
 $url2 = 'http://' + $env:computername + ':80/'
 $url3 = 'http://localhost:80/'
 
+# Html Template
 $template = @'
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +67,15 @@ $(document).ready(function(){var n=0,r=$(".transition-timer-carousel-progress-ba
 </html>
 '@
 
-Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
+# SCCM console commands
+
+#Reference: 
+#Get started with Configuration Manager cmdlets
+#https://docs.microsoft.com/en-us/powershell/sccm/overview?view=sccm-ps 
+
+Set-Location $env:SMS_ADMIN_UI_PATH\..\
+#Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
+#Set-Location 'C:\Program Files (x86)\Microsoft Endpoint Manager\AdminConsole\bin'
 Import-Module .\ConfigurationManager.psd1
 Set-Location ABC:
 #$Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-table | out-string
