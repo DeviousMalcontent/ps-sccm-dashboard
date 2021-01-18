@@ -43,12 +43,7 @@ $(document).ready(function(){var n=0,r=$(".transition-timer-carousel-progress-ba
 <div class="carousel-inner" style="width:100%; height: 100%px;">
 <div class="item active">
 <h2>Student Workstations: LAB A</h2>
-<table>
-<tr><th>Name</th><th>Client Active Status</th><th>Client Version</th><th>Device OS Build</th><th>Last Policy Request</th></tr>
-<tr><td>Name</td><td>
 {page}
-</td><td>Client Version</td><td>Device OS Build</td><td>Last Policy Request</td></tr>
-</table>
 </div>
 </div>
 </div>
@@ -59,9 +54,18 @@ $(document).ready(function(){var n=0,r=$(".transition-timer-carousel-progress-ba
 Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
 Import-Module .\ConfigurationManager.psd1
 Set-Location ABC:
-$Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-table | out-string
+#$Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-table | out-string
+$Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | ConvertTo-Html -Property Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | out-string
 
-# ConvertTo-Html -Property Name,Used,Provider,Root,CurrentLocation
+# Do this, or mess around with regex for the next 40 minutes...
+$Collection1 = $Collection1 -replace '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\r\n'
+$Collection1 = $Collection1 -replace '<html xmlns="http://www.w3.org/1999/xhtml">\r\n'
+$Collection1 = $Collection1 -replace '<head>\r\n'
+$Collection1 = $Collection1 -replace '<title>HTML TABLE</title>\r\n'
+$Collection1 = $Collection1 -replace '</head><body>\r\n'
+$Collection1 = $Collection1 -replace '<colgroup><col/><col/><col/><col/><col/></colgroup>\r\n'
+$Collection1 = $Collection1 -replace '</body></html>\r\n'
+
 
 Write-Host "test data: "
 Write-Host $Collection1
@@ -111,7 +115,7 @@ function extract($request) {
   return $data
 }
 
-# Strat httplistener
+# Start httplistener
 $listener = new-object system.net.httplistener
 $listener.prefixes.add($url3)
 $listener.prefixes.add($url2)
