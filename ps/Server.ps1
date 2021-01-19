@@ -66,15 +66,17 @@ $(document).ready(function(){var n=0,r=$(".transition-timer-carousel-progress-ba
 <li data-target="#Carousel" data-slide-to="3"></li>
 </ol>
 <div class="carousel-inner" style="width:100%; height: 100%px;">
-<div class="item active">
-<h2>Student Workstations: LAB A</h2>
 {page}
-</div>
 </div>
 </div>
 </body>
 </html>
 '@
+
+#<div class="item active">
+#<h2>Student Workstations: LAB A</h2>
+#{page}
+#</div>
 
 # SCCM console commands
 
@@ -85,26 +87,40 @@ $(document).ready(function(){var n=0,r=$(".transition-timer-carousel-progress-ba
 Set-Location $env:SMS_ADMIN_UI_PATH\..\
 #Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
 #Set-Location 'C:\Program Files (x86)\Microsoft Endpoint Manager\AdminConsole\bin'
+
 Import-Module .\ConfigurationManager.psd1
-#Set-Location $siteCode: + ":"
-Set-Location ABC:
-#$Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus, ClientVersion, DeviceOSBuild, LastPolicyRequest | format-table | out-string
-$Collection1 = Get-CMDevice -CollectionName "*My Collection Name*" | select-object Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | ConvertTo-Html -Property Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | out-string
+Set-Location $siteCode
+
+$deviceCollectionArray = $deviceCollectionsName.Split(",")
+Foreach ($deviceCollection in $deviceCollectionArray)
+{
+$deviceCollectionLookUp = $deviceCollection -replace '"'
+$CollectionDataTemp = Get-CMDevice -CollectionName $deviceCollectionLookUp | select-object Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | ConvertTo-Html -Property Name,ClientActiveStatus,ClientVersion,DeviceOSBuild,LastPolicyRequest | out-string
 
 # Do this, or mess around with regex for the next 40 minutes...
-$Collection1 = $Collection1 -replace '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\r\n'
-$Collection1 = $Collection1 -replace '<html xmlns="http://www.w3.org/1999/xhtml">\r\n'
-$Collection1 = $Collection1 -replace '<head>\r\n'
-$Collection1 = $Collection1 -replace '<title>HTML TABLE</title>\r\n'
-$Collection1 = $Collection1 -replace '</head><body>\r\n'
-$Collection1 = $Collection1 -replace '<colgroup><col/><col/><col/><col/><col/></colgroup>\r\n'
-$Collection1 = $Collection1 -replace '</body></html>\r\n'
+$CollectionDataTemp = $CollectionDataTemp -replace '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\r\n'
+$CollectionDataTemp = $CollectionDataTemp -replace '<html xmlns="http://www.w3.org/1999/xhtml">\r\n'
+$CollectionDataTemp = $CollectionDataTemp -replace '<head>\r\n'
+$CollectionDataTemp = $CollectionDataTemp -replace '<title>HTML TABLE</title>\r\n'
+$CollectionDataTemp = $CollectionDataTemp -replace '</head><body>\r\n'
+$CollectionDataTemp = $CollectionDataTemp -replace '<colgroup><col/><col/><col/><col/><col/></colgroup>\r\n'
+$CollectionDataTemp = $CollectionDataTemp -replace '</body></html>\r\n'
+
+$CollectionString = $CollectionString + '<div class="item active">'
+$CollectionString = $CollectionString + '<h2>'
+$CollectionString = $CollectionString + $deviceCollectionLookUp
+$CollectionString = $CollectionString + '</h2>'
+$CollectionString = $CollectionString + $CollectionDataTemp
+$CollectionString = $CollectionString + '</div>'
+
+Clear-Variable -Name "CollectionDataTemp"
+}
 
 # Debug
 Write-Host "Collection entries: "
-Write-Host $Collection1
+Write-Host $CollectionString
 
-$output = ' ' +  $Collection1 + ' '
+$output = ' ' +  $CollectionString + ' '
 
 # HTTP routing for requests.
 $routes = @{
@@ -131,27 +147,6 @@ function render($template, $content) {
 
   return $template
 }
-
-# Not needed.
-
-# get post data from the input stream.
-#function extract($request) {
-#  $length = $request.contentlength64
-#  $buffer = new-object "byte[]" $length
-#
-#  [void]$request.inputstream.read($buffer, 0, $length)
-#  $body = [system.text.encoding]::ascii.getstring($buffer)
-#
-#  $data = @{}
-#  $body.split('&') | %{
-#    $part = $_.split('=')
-#    $data.add($part[0], $part[1])
-#  }
-#
-#  return $data
-#}
-
-# Not needed.
 
 # Start httplistener
 $listener = new-object system.net.httplistener
@@ -185,6 +180,5 @@ while ($listener.islistening) {
     $response.contentlength64 = $buffer.length
     $response.outputstream.write($buffer, 0, $buffer.length)
   }
-
   $response.close()
 }
