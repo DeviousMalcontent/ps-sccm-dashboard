@@ -13,8 +13,8 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 
 # Load the settings file
-# Get-Content $PSScriptRoot\Settings.ini | Foreach-Object{ # - prod
-Get-Content $PSScriptRoot\mySettings.ini | Foreach-Object{
+Get-Content $PSScriptRoot\Settings.ini | Foreach-Object{ # - prod
+#Get-Content $PSScriptRoot\mySettings.ini | Foreach-Object{  # - dev
    $var = $_.Split('=')
    New-Variable -Name $var[0] -Value $var[1]
 }
@@ -28,7 +28,6 @@ Write-Host $deviceCollectionsCompareAgainstReferenceSystem
 #Write-Host $deviceCollectionsReferenceSystemHost
 #Write-Host $carouselInterval
 #Write-Host $dashboardRefreshRate
-
 
 # Get the IP address of our host computer so that it can be added to the httplistener
 $ipV4 = Test-Connection -ComputerName (hostname) -Count 1  | Select -ExpandProperty IPV4Address
@@ -60,23 +59,12 @@ $(document).ready(function(){var n=0,r=$(".transition-timer-carousel-progress-ba
 <hr class="transition-timer-carousel-progress-bar" />
 <div id="Carousel" class="carousel slide" data-ride="carousel" data-interval="20000" style="margin 10px;">
 <ol class="carousel-indicators">
-<li data-target="#Carousel" data-slide-to="0" class="active"></li>
-<li data-target="#Carousel" data-slide-to="1"></li>
-<li data-target="#Carousel" data-slide-to="2"></li>
-<li data-target="#Carousel" data-slide-to="3"></li>
-</ol>
-<div class="carousel-inner" style="width:100%; height: 100%px;">
 {page}
 </div>
 </div>
 </body>
 </html>
 '@
-
-#<div class="item active">
-#<h2>Student Workstations: LAB A</h2>
-#{page}
-#</div>
 
 # SCCM console commands
 
@@ -88,10 +76,24 @@ Set-Location $env:SMS_ADMIN_UI_PATH\..\
 #Set-Location 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin'
 #Set-Location 'C:\Program Files (x86)\Microsoft Endpoint Manager\AdminConsole\bin'
 
+
+Write-Host "Pulling information from site collection... "
 Import-Module .\ConfigurationManager.psd1
 Set-Location $siteCode
 
+# Pull and format data from the site collection
 $deviceCollectionArray = $deviceCollectionsName.Split(",")
+$CollectionString = $CollectionString + '<li data-target="#Carousel" data-slide-to="0" class="active"></li>'
+if ( $deviceCollectionArray.Length -gt 0 ){
+	For ($counter=1; $counter -lt $deviceCollectionArray.Length; $counter++) {
+		$CollectionString = $CollectionString + '<li data-target="#Carousel" data-slide-to="' + $counter + '"></li>'
+	}
+}
+$CollectionString = $CollectionString + '</ol>'
+$CollectionString = $CollectionString + '<div class="carousel-inner" style="width:100%; height: 100%px;">'
+
+# Reset counter
+$counter=0
 Foreach ($deviceCollection in $deviceCollectionArray)
 {
 $deviceCollectionLookUp = $deviceCollection -replace '"'
@@ -106,7 +108,15 @@ $CollectionDataTemp = $CollectionDataTemp -replace '</head><body>\r\n'
 $CollectionDataTemp = $CollectionDataTemp -replace '<colgroup><col/><col/><col/><col/><col/></colgroup>\r\n'
 $CollectionDataTemp = $CollectionDataTemp -replace '</body></html>\r\n'
 
-$CollectionString = $CollectionString + '<div class="item active">'
+# Set active on first carousel item
+if ( $counter -eq 0 ){
+	$CollectionString = $CollectionString + '<div class="item active">'
+} else {
+	$CollectionString = $CollectionString + '<div class="item">'
+}
+
+$counter++
+
 $CollectionString = $CollectionString + '<h2>'
 $CollectionString = $CollectionString + $deviceCollectionLookUp
 $CollectionString = $CollectionString + '</h2>'
